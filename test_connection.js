@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-  console.log("Conexión exitosa a MongoDB Atlas!");
-  process.exit();
-})
-.catch(err => {
-  console.error("Error de conexión:", err);
-  process.exit(1);
+describe("Conexión a MongoDB Atlas", () => {
+  it("debería conectarse correctamente", async () => {
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    expect(mongoose.connection.readyState).toBe(1); // 1 = conectado
+    await mongoose.disconnect();
+  });
 });
