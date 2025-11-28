@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tareas</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Tareas</h1>
+
+        <section class="create-task">
+            <h2>Crear Nueva Tarea</h2>
+            <input type="text" id="titulo" placeholder="Título">
+            <input type="text" id="descripcion" placeholder="Descripción">
+            <input type="date" id="fecha">
+            <button id="crearBtn"><i class="fas fa-plus"></i> Crear Tarea</button>
+        </section>
+
+        <section class="task-list">
+            <h2>Lista de Tareas</h2>
+            <table id="tareasTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Fecha</th>
+                        <th>Completada</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button id="refrescarBtn"><i class="fas fa-sync-alt"></i> Ver Todas las Tareas</button>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
