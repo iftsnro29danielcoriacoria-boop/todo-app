@@ -103,3 +103,9 @@ Configurar CI/CD con GitHub Actions para tests, build y despliegue automático.
 Desplegar la app en Render usando la imagen Docker.
 
 (Opcional) Mejorar el frontend y agregar monitorización o alertas.
+## 3. Dockerización
+
+- Se creó el `Dockerfile` para la app.
+- Se generó `docker-compose.yml` para levantar el servicio `app`.
+- La app se conecta a MongoDB Atlas mediante la variable de entorno `MONGO_URI`.
+- No se necesita servicio de base de datos local.
