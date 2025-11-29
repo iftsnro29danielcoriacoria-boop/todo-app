@@ -119,3 +119,17 @@ Se implementó Terraform para aprovisionar y desplegar la aplicación en contene
    - `outputs.tf`: exporta información relevante como el nombre y la IP del contenedor.
    - `variables.tf`: define variables reutilizables, como `mongo_uri`.
    - `terraform.tfvars`: contiene valores concretos para las variables (MONGO_URI, puertos, etc.), nunca subir credenciales directamente al repositorio.
+
+   7. Monitoreo y Observabilidad (Prometheus & Grafana)
+
+Se implementó una solución de monitoreo basada en la Suite de Prometheus y Grafana para recolectar y visualizar métricas de rendimiento y salud de la aplicación en tiempo real.
+
+Flujo realizado
+
+Instrumentación de la App: Se instaló prom-client en la aplicación Node.js y se configuró un endpoint /metrics en el puerto 3001 para exponer métricas clave (latencia HTTP, uso de CPU y estado de conexión a MongoDB).
+
+Configuración de Servicios: Se integraron los servicios de Prometheus (:9090) y Grafana (:3000) en el archivo docker-compose.yml.
+
+Definición de Targets: Se configuró el archivo prometheus.yml para indicar a Prometheus que hiciera scrape al servicio app en el puerto 3001 de la red interna de Docker.
+
+Verificación: Se validó la recolección de datos en la interfaz de Prometheus (Targets) y se conectó Grafana para la creación de dashboards de visualización. 

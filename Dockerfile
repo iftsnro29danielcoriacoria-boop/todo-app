@@ -1,20 +1,21 @@
-# 1️⃣ Imagen base ligera de Node.js
+
 FROM node:18-alpine
 
-# 2️⃣ Crear directorio de trabajo dentro del contenedor
+
 WORKDIR /app
 
-# 3️⃣ Copiar archivos de dependencias primero (mejor cacheo)
+
+# Asegúrate de que 'prom-client' esté listado en 'dependencies' en package.json
 COPY package*.json ./
 
-# 4️⃣ Instalar dependencias
+
 RUN npm install --production
 
 # 5️⃣ Copiar el resto de la aplicación
 COPY . .
 
-# 6️⃣ Exponer el puerto donde corre la app
-EXPOSE 3001
+# 6️⃣ Exponer los puertos donde corre la app y las métricas
+EXPOSE 3001 
+EXPOSE 9000 
 
-# 7️⃣ Comando para arrancar la app
-CMD ["node", "src/server.js"]
+CMD ["node", "server.js"]

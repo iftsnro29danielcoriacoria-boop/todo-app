@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3001/api/tareas";
+const API_URL = "https://todo-app-biho.onrender.com/api/tareas";
 
 const tareasTable = document.querySelector("#tareasTable tbody");
 const crearBtn = document.getElementById("crearBtn");
