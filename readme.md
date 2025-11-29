@@ -31,7 +31,7 @@ Los botones de acción incluyen íconos claros para mejorar la experiencia del u
 
 ## Base de datos
 - MongoDB Atlas como base de datos en la nube.
-- La app está conectada directamente a Atlas mediante una URI segura.
+- La app está conectada directamente a Atlas mediante la variable de entorno `MONGO_URI`.
 - Se crearon colecciones de tareas y se importó un dataset inicial con varias tareas para pruebas.
 - CRUD completo implementado: las operaciones desde la app actualizan automáticamente los datos en la nube.
 
@@ -52,6 +52,7 @@ todo-app/
 ├─ tests/ # Pruebas automatizadas
 ├─ Dockerfile
 ├─ docker-compose.yml
+├─ push-ghcr.ps1 # Script para subir imagen Docker a GHCR
 ├─ README.md
 └─ package.json
 
@@ -65,6 +66,7 @@ Esta organización permite mantener el código limpio, escalable y fácil de man
 - Se generó `docker-compose.yml` para levantar el servicio `app`.
 - La app se conecta a MongoDB Atlas mediante la variable de entorno `MONGO_URI`.
 - No se necesita servicio de base de datos local.
+- Imagen Docker construida y subida a **GitHub Container Registry (GHCR)**.
 
 ## 4. Automatización de tests
 - Se implementaron pruebas automatizadas usando **Jest** y **Supertest**.
@@ -83,20 +85,26 @@ Copiar código
 
 Esto asegura que el backend funciona correctamente con MongoDB Atlas antes de pasar a Docker y CI/CD.
 
-## Despliegue y DevOps
-- La aplicación está preparada para Docker y CI/CD, siguiendo buenas prácticas de DevOps.
-- **Render** es la plataforma recomendada para desplegar este backend Node.js + MongoDB Atlas.
-- Se descartó Vercel porque no maneja Docker tradicional ni servidores persistentes de Node.js.
+## 5. CI/CD y despliegue automático
+- **GitHub Actions** configurado:
+  - Build de la app
+  - Ejecución de tests
+  - Build y push de imagen Docker a GHCR
+- Script `push-ghcr.ps1` para logueo seguro y push a GitHub Container Registry.
+- **Render** configurado para desplegar automáticamente la imagen Docker de GHCR:
+  - Branch: `main`
+  - Variables de entorno configuradas (`MONGO_URI`, `PORT=3001`)
+  - Despliegue automático habilitado tras cada push a `main`
+- La app ahora está disponible públicamente vía Render con CI/CD completo.
 
 ## Estado actual del proyecto
 - Backend funcionando correctamente y conectado a MongoDB Atlas.
 - CRUD completo implementado y testeado localmente.
 - Frontend básico pero funcional con botones e íconos.
-- Feature para marcar tareas completadas integrada a la rama `develop`.
-- Branch `main` contiene la versión estable inicial.
+- Imagen Docker construida y subida a GHCR.
+- Pipeline CI/CD funcionando: build, test, push Docker y despliegue en Render.
 
 ## Próximos pasos
-- Dockerizar completamente la aplicación con Dockerfile y docker-compose.
-- Configurar CI/CD con GitHub Actions para tests, build y despliegue automático.
-- Desplegar la app en Render usando la imagen Docker.
-- (Opcional) Mejorar el frontend y agregar monitorización o alertas.
+- Mejorar frontend (UI/UX)
+- Añadir monitorización y alertas (opcional)
+- Escalar despliegue en Render a instancias con mayor capacidad si es necesario
