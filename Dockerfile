@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 3001 
 EXPOSE 9000 
 
-CMD ["node", "server.js"]
+CMD ["node", "src/server.js"]
