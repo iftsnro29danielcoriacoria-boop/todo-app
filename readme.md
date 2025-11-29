@@ -108,3 +108,14 @@ Esto asegura que el backend funciona correctamente con MongoDB Atlas antes de pa
 - Mejorar frontend (UI/UX)
 - Añadir monitorización y alertas (opcional)
 - Escalar despliegue en Render a instancias con mayor capacidad si es necesario
+## 6. Infraestructura como Código (IaC)
+
+Se implementó Terraform para aprovisionar y desplegar la aplicación en contenedores Docker de manera reproducible y automatizada.
+
+### Flujo realizado
+
+1. Se creó un directorio `terraform/` con los siguientes archivos:
+   - `main.tf`: define los recursos Docker (imagen y contenedor) para la app.
+   - `outputs.tf`: exporta información relevante como el nombre y la IP del contenedor.
+   - `variables.tf`: define variables reutilizables, como `mongo_uri`.
+   - `terraform.tfvars`: contiene valores concretos para las variables (MONGO_URI, puertos, etc.), nunca subir credenciales directamente al repositorio.
