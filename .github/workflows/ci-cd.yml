@@ -59,16 +59,17 @@ jobs:
           echo "Pushing image: $IMAGE"
           docker push "$IMAGE"
 
-  # ==========================
-  # 3) DEPLOY A RENDER
-  # ==========================
+  # ===============================================
+  # 3) DEPLOY A RENDER (CORREGIDO: Webhook)
+  # ===============================================
   deploy-render:
     needs: docker-build-push
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Deploy to Render
-        uses: render-examples/github-actions@v1
-        with:
-          api-key: ${{ secrets.RENDER_API_KEY }}
-          service-id: ${{ secrets.RENDER_SERVICE_ID }}
+      - name: Trigger Render Deploy Webhook
+        run: |
+          echo "Activando el despliegue en Render usando la URL del Webhook..."
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        env:
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
