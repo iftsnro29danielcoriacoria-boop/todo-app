@@ -39,16 +39,14 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ github.actor }}     # <─ CORRECTO
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: |
-          docker build -t ghcr.io/iftsnro29danielcoriacoria-boop/todo-app:latest .
+        run: docker build -t ghcr.io/danielcoriacoria/todo-app:latest .
 
       - name: Push Docker image
-        run: |
-          docker push ghcr.io/iftsnro29danielcoriacoria-boop/todo-app:latest
+        run: docker push ghcr.io/danielcoriacoria/todo-app:latest
 
   deploy-render:
     needs: docker-build-push
