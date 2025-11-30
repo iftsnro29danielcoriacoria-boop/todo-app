@@ -7,6 +7,9 @@ on:
     branches: [main, develop]
 
 jobs:
+  # ==========================
+  # 1) BUILD + TEST
+  # ==========================
   build-and-test:
     runs-on: ubuntu-latest
     env:
@@ -27,18 +30,22 @@ jobs:
       - name: Run tests
         run: npm test
 
+  # ==========================
+  # 2) BUILD + PUSH DOCKER IMAGE → GHCR
+  # ==========================
   docker-build-push:
     needs: build-and-test
     runs-on: ubuntu-latest
+
     permissions:
       contents: read
-      packages: write  # Necesario para GHCR
+      packages: write   # 🔥 NECESARIO PARA SUBIR IMAGEN A GHCR
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Login to GHCR
+      - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
@@ -48,15 +55,18 @@ jobs:
       - name: Build Docker image
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/todo-app:latest"
-          echo "IMAGE=$IMAGE"
-          docker build -t $IMAGE .
+          echo "Building image: $IMAGE"
+          docker build -t "$IMAGE" .
 
       - name: Push Docker image
         run: |
           IMAGE="ghcr.io/${{ github.repository_owner }}/todo-app:latest"
-          echo "Pushing todo-app"
-          docker push todo-app
+          echo "Pushing image: $IMAGE"
+          docker push "$IMAGE"
 
+  # ==========================
+  # 3) DEPLOY A RENDER
+  # ==========================
   deploy-render:
     needs: docker-build-push
     runs-on: ubuntu-latest
