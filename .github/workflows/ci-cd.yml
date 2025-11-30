@@ -30,6 +30,9 @@ jobs:
   docker-build-push:
     needs: build-and-test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write   # 🔥 NECESARIO PARA GHCR
 
     steps:
       - name: Checkout repository
@@ -43,10 +46,16 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Docker image
-        run: docker build -t ghcr.io/danielcoriacoria/todo-app:latest .
+        run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/todo-app:latest"
+          echo "IMAGE=$IMAGE"
+          docker build -t $IMAGE .
 
       - name: Push Docker image
-        run: docker push ghcr.io/danielcoriacoria/todo-app:latest
+        run: |
+          IMAGE="ghcr.io/${{ github.repository_owner }}/todo-app:latest"
+          echo "Pushing $IMAGE"
+          docker push $IMAGE
 
   deploy-render:
     needs: docker-build-push
