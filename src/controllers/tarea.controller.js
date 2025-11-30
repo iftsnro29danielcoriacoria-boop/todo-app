@@ -7,7 +7,7 @@ exports.getTodos = async (req, res) => {
     const tareas = await tareaService.getAll();
     res.json(tareas);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener las tareas " });
+    res.status(500).json({ error: "Error al obtener las tareas actuales" });
   }
 };
 
