@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write   # 🔥 NECESARIO PARA GHCR urgenbte
+      packages: write   # 🔥 NECESARIO PARA GHCR revisar nuevamente
 
     steps:
       - name: Checkout repository
