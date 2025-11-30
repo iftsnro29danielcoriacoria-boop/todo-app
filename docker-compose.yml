@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: todo-app
+    # Mantenemos solo el puerto principal de la aplicación
+    ports:
+      - "3001:3001" 
+    env_file:
+      - .env
+    environment:
+      - MONGO_URI=${MONGO_URI}
+    restart: unless-stopped
+
+  # SERVICIO DE MONITOREO: PROMETHEUS
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      # Montamos el archivo de configuración creado arriba
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090" # Puerto de acceso a la interfaz web de Prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      - app
+
+  # SERVICIO DE VISUALIZACIÓN: GRAFANA
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000" # Puerto de acceso a la interfaz web de Grafana
+    user: "1000" 
+    depends_on:
+      - prometheus

@@ -1,0 +1,11 @@
+global:
+  # Frecuencia con la que Prometheus intentará obtener métricas
+  scrape_interval: 15s 
+
+scrape_configs:
+  # Job para recoger métricas de la aplicación 'todo-app'
+  - job_name: 'todo-app'
+    # Usamos 'app' como nombre del host (del servicio Docker)
+    # y el puerto 3001, que es donde se atiende el endpoint /metrics
+    static_configs:
+      - targets: ['app:3001']
