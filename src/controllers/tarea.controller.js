@@ -3,6 +3,7 @@ const tareaService = require("../services/tarea.service");
 // Obtener todas
 exports.getTodos = async (req, res) => {
   try {
+    console.log("LOG: Iniciando obtención de todas las tareas.");
     const tareas = await tareaService.getAll();
     res.json(tareas);
   } catch (error) {
